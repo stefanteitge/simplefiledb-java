@@ -29,6 +29,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.base.Objects;
+
 import de.stefanteitge.kwery.IDatabase;
 import de.stefanteitge.kwery.IEntity;
 import de.stefanteitge.kwery.ITable;
@@ -204,6 +206,13 @@ public class Table implements ITable {
 		}
 
 		return false;
+	}
+	
+	@Override
+	public String toString() {
+		return Objects.toStringHelper(getClass())
+			      .add("Name", name)
+			      .toString();
 	}
 
 	protected boolean isColumnInTable(String column) {

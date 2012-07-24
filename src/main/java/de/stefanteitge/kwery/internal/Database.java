@@ -21,6 +21,8 @@ import java.io.FilenameFilter;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.common.base.Objects;
+
 import de.stefanteitge.kwery.IDatabase;
 import de.stefanteitge.kwery.ITable;
 import de.stefanteitge.kwery.KweryException;
@@ -104,5 +106,12 @@ public class Database implements IDatabase {
 
 		return false;
 	}
-
+	
+	@Override
+	public String toString() {
+		return Objects.toStringHelper(getClass())
+			      .add("Path", directory.getAbsolutePath())
+			      .add("Table count", tableMap.size())
+			      .toString();
+	}
 }

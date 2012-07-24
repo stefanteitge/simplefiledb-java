@@ -19,6 +19,8 @@ package de.stefanteitge.kwery.internal;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.google.common.base.Objects;
+
 import de.stefanteitge.kwery.IEntity;
 import de.stefanteitge.kwery.ITable;
 
@@ -67,6 +69,13 @@ public class Entity implements IEntity {
 		if (oldValue != null && !oldValue.equals(value)) {
 			modified = true;
 		}
+	}
+	
+	@Override
+	public String toString() {
+		return Objects.toStringHelper(getClass())
+			      .add("Table", table)
+			      .toString();
 	}
 
 	protected boolean isColumnInTable(String column) {
