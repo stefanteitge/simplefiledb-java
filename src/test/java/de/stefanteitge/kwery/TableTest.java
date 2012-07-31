@@ -1,9 +1,12 @@
 package de.stefanteitge.kwery;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 import de.stefanteitge.kwery.IDatabase;
 import de.stefanteitge.kwery.IEntity;
@@ -12,6 +15,9 @@ import de.stefanteitge.kwery.Kwery;
 import de.stefanteitge.kwery.KweryException;
 
 public class TableTest {
+	
+	@Rule
+    public TemporaryFolder temporaryFolder = new TemporaryFolder();
 	
 	private static final String TEST01_PATH = "src/test/resources/test01/";
 	
@@ -109,8 +115,8 @@ public class TableTest {
 	}
 
 	@Test
-	public void testCreateTable() throws KweryException {
-		File folder = new File(TEST02_PATH);
+	public void testCreateTable() throws KweryException, IOException {
+		File folder = temporaryFolder.newFolder();
 
 		File tableFile = new File(folder, "a.kwery");
 
@@ -136,8 +142,8 @@ public class TableTest {
 	}
 
 	@Test
-	public void testCreateTableDisallowed() throws KweryException {
-		File folder = new File(TEST02_PATH);
+	public void testCreateTableDisallowed() throws KweryException, IOException {
+		File folder = temporaryFolder.newFolder();
 
 		File tableFile = new File(folder, "a.kwery");
 
