@@ -19,6 +19,8 @@ package de.stefanteitge.kwery;
 
 public class KweryException extends Exception {
 
+	private static final long serialVersionUID = 1L;
+
 	public KweryException(String message) {
 		super(message);
 	}
