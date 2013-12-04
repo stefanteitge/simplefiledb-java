@@ -13,11 +13,9 @@ import de.stefanteitge.kwery.KweryException;
 
 public class EntityTest {
 
-	private static final String TEST01_PATH = "src/test/resources/test01/";
-
 	@Test
 	public void testGetValue() throws KweryException {
-		IDatabase database = Kwery.getDatabase(new File(TEST01_PATH));
+		IDatabase database = Kwery.getDatabase(new File(TestSettings.TEST01_PATH));
 		ITable table = database.getTable("b", false);
 		IEntity[] entities = table.getAll();
 
@@ -32,7 +30,7 @@ public class EntityTest {
 
 	@Test
 	public void testSetValue() throws KweryException {
-		IDatabase database = Kwery.getDatabase(new File(TEST01_PATH));
+		IDatabase database = Kwery.getDatabase(new File(TestSettings.TEST01_PATH));
 		ITable table = database.getTable("b", false);
 		IEntity[] entities = table.getAll();
 
@@ -45,7 +43,7 @@ public class EntityTest {
 
 	@Test(expected=RuntimeException.class)
 	public void testSetValueInvalidColumn() throws KweryException {
-		IDatabase database = Kwery.getDatabase(new File(TEST01_PATH));
+		IDatabase database = Kwery.getDatabase(new File(TestSettings.TEST01_PATH));
 		ITable table = database.getTable("b", false);
 		IEntity[] entities = table.getAll();
 
@@ -54,7 +52,7 @@ public class EntityTest {
 
 	@Test
 	public void testIsModifed() throws KweryException {
-		IDatabase database = Kwery.getDatabase(new File(TEST01_PATH));
+		IDatabase database = Kwery.getDatabase(new File(TestSettings.TEST01_PATH));
 		ITable table = database.getTable("b", false);
 		IEntity[] entities = table.getAll();
 

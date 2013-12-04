@@ -19,13 +19,9 @@ public class TableTest {
 	@Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 	
-	private static final String TEST01_PATH = "src/test/resources/test01/";
-	
-	private static final String TEST02_PATH = "src/test/resources/test02/";
-
 	@Test
 	public void testGetColums() throws KweryException {
-		IDatabase database = Kwery.getDatabase(new File(TEST01_PATH));
+		IDatabase database = Kwery.getDatabase(new File(TestSettings.TEST01_PATH));
 
 		Assert.assertNotNull("Database may not be null", database);
 
@@ -48,7 +44,7 @@ public class TableTest {
 
 	@Test
 	public void testGetDatabase() throws KweryException {
-		IDatabase database = Kwery.getDatabase(new File(TEST01_PATH));
+		IDatabase database = Kwery.getDatabase(new File(TestSettings.TEST01_PATH));
 
 		Assert.assertNotNull("Database may not be null", database);
 
@@ -61,7 +57,7 @@ public class TableTest {
 
 	@Test
 	public void testGetAll() throws KweryException {
-		IDatabase database = Kwery.getDatabase(new File(TEST01_PATH));
+		IDatabase database = Kwery.getDatabase(new File(TestSettings.TEST01_PATH));
 
 		Assert.assertNotNull("Database may not be null", database);
 
@@ -80,7 +76,7 @@ public class TableTest {
 
 	@Test
 	public void testSimpleQuery() throws KweryException {
-		IDatabase database = Kwery.getDatabase(new File(TEST01_PATH));
+		IDatabase database = Kwery.getDatabase(new File(TestSettings.TEST01_PATH));
 		ITable table = database.getTable("b", false);
 
 		IEntity entity = table.simpleQuery("r", "b");
@@ -92,7 +88,7 @@ public class TableTest {
 
 	@Test(expected=RuntimeException.class)
 	public void testSimpleQueryInvalidColumn() throws KweryException {
-		IDatabase database = Kwery.getDatabase(new File(TEST01_PATH));
+		IDatabase database = Kwery.getDatabase(new File(TestSettings.TEST01_PATH));
 		ITable table = database.getTable("b", false);
 
 		table.simpleQuery("z", "b");
@@ -100,7 +96,7 @@ public class TableTest {
 
 	@Test
 	public void testCreateEntity() throws KweryException {
-		IDatabase database = Kwery.getDatabase(new File(TEST01_PATH));
+		IDatabase database = Kwery.getDatabase(new File(TestSettings.TEST01_PATH));
 		ITable table = database.getTable("c", false);
 
 		int entityCount = table.getAll().length;

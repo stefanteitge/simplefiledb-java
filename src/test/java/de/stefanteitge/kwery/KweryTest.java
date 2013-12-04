@@ -27,11 +27,9 @@ import de.stefanteitge.kwery.KweryException;
 
 public class KweryTest {
 
-	private static final String TEST01_PATH = "src/test/resources/test01/";
-	
 	@Test
 	public void testGetDatabase() throws KweryException {
-		IDatabase database = Kwery.getDatabase(new File(TEST01_PATH));
+		IDatabase database = Kwery.getDatabase(new File(TestSettings.TEST01_PATH));
 
 		Assert.assertNotNull("Database may not be null", database);
 	}

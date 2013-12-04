@@ -17,22 +17,23 @@
 package de.stefanteitge.kwery;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
-import de.stefanteitge.kwery.IDatabase;
-import de.stefanteitge.kwery.ITable;
-import de.stefanteitge.kwery.Kwery;
-import de.stefanteitge.kwery.KweryException;
+import com.google.common.io.Files;
 
 public class DatabaseTest {
 
-	private static final String TEST01_PATH = "src/test/resources/test01/";
-
+	@Rule
+    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+	
 	@Test
 	public void testGetTables() throws KweryException {
-		IDatabase database = Kwery.getDatabase(new File(TEST01_PATH));
+		IDatabase database = Kwery.getDatabase(new File(TestSettings.TEST01_PATH));
 
 		Assert.assertNotNull("Database may not be null", database);
 
@@ -41,7 +42,7 @@ public class DatabaseTest {
 
 	@Test
 	public void testGetTable() throws KweryException {
-		IDatabase database = Kwery.getDatabase(new File(TEST01_PATH));
+		IDatabase database = Kwery.getDatabase(new File(TestSettings.TEST01_PATH));
 
 		Assert.assertNotNull("Database may not be null", database);
 
@@ -55,8 +56,14 @@ public class DatabaseTest {
 	}
 
 	@Test
-	public void testFlush() throws KweryException {
-		IDatabase database = Kwery.getDatabase(new File(TEST01_PATH));
+	public void testFlush() throws KweryException, IOException {
+		File folder = temporaryFolder.newFolder();
+		File source = new File(TestSettings.TEST01_PATH, "c.kwery");
+		File target = new File(folder, "c.kwery");
+		
+		Files.copy(source, target);
+		
+		IDatabase database = Kwery.getDatabase(folder);
 
 		Assert.assertNotNull("Database may not be null", database);
 
@@ -66,12 +73,9 @@ public class DatabaseTest {
 
 		String value = tableC.getAll()[0].getValue("s");
 
-		String exchange = "c";
-		if (exchange.equals(value)) {
-			exchange = "cc";
-		}
+		Assert.assertEquals("Read test char is invalid", value, "c");
 
-		tableC.getAll()[0].setValue("s", exchange);
+		tableC.getAll()[0].setValue("s", "cc");
 
 		Assert.assertEquals("Database is not modified", database.isModified(), true);
 
@@ -79,10 +83,10 @@ public class DatabaseTest {
 
 		Assert.assertEquals("Database is still modified", database.isModified(), false);
 
-		IDatabase database2 = Kwery.getDatabase(new File(TEST01_PATH));
+		IDatabase database2 = Kwery.getDatabase(folder);
 		ITable tableC2 = database2.getTable("c", false);
 		String value2 = tableC2.getAll()[0].getValue("s");
 
-		Assert.assertEquals("Entity value mismatch", exchange, value2);
+		Assert.assertEquals("Entity value mismatch", "cc", value2);
 	}
 }
