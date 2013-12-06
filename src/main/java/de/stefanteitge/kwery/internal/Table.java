@@ -52,7 +52,9 @@ public class Table implements ITable {
 
 	private final IDatabase database;
 
-	private boolean entityCountChanged;
+	private boolean entityCountModified;
+	
+	private boolean columnsModified;
 
 	public Table(Database database, File file) throws KweryException {
 		this.database = database;
@@ -102,6 +104,7 @@ public class Table implements ITable {
 	public void addColumn(String column) {
 		// TODO Auto-generated method stub
 		columns = concat(columns, new String[] {column});
+		columnsModified = true;
 	}
 
 	public static <T> T[] concat(T[] first, T[] second) {
@@ -110,13 +113,12 @@ public class Table implements ITable {
 		return result;
 	}
 
-
 	@Override
 	public IEntity createEntity() {
 		Entity entity = new Entity(this, new HashMap<String, String>());
 
 		entityList.add(entity);
-		entityCountChanged = true;
+		entityCountModified = true;
 
 		return entity;
 	}
@@ -186,7 +188,8 @@ public class Table implements ITable {
 
 			bw.close();
 
-			entityCountChanged = false;
+			entityCountModified = false;
+			columnsModified = false;
 		} catch (IOException e) {
 			// TODO rollback on failure (isModified)?
 			throw new KweryException("Failed to save table " + name, e);
@@ -195,7 +198,11 @@ public class Table implements ITable {
 
 	@Override
 	public boolean isModified() {
-		if (entityCountChanged) {
+		if (columnsModified) {
+			return true;
+		}
+		
+		if (entityCountModified) {
 			return true;
 		}
 
