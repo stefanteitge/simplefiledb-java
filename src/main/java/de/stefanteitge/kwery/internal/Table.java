@@ -28,6 +28,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import com.google.common.base.Objects;
 
@@ -38,9 +39,9 @@ import de.stefanteitge.kwery.KweryException;
 
 public class Table implements ITable {
 
-	private static final String SEPARATOR = "||";
+	//private static final String SEPARATOR = "||";
 
-	private static final String SEPARATOR_REGEX = "\\|\\|";
+	//private static final String SEPARATOR_REGEX = "\\|\\|";
 
 	private final File file;
 
@@ -80,8 +81,8 @@ public class Table implements ITable {
 			BufferedReader br = new BufferedReader(fr);
 			boolean first = true;
 			String s;
-			while((s = br.readLine()) != null) {
-				String[] fields = s.split(SEPARATOR_REGEX);
+			while ((s = br.readLine()) != null) {
+				String[] fields = s.split(Pattern.quote(getDatabase().getConfig().getFieldSeparator()));
 
 				if (first) {
 					columns = fields;
@@ -249,7 +250,7 @@ public class Table implements ITable {
 			if (i == 0) {
 				row = field;
 			} else {
-				row += SEPARATOR + field;
+				row += getDatabase().getConfig().getFieldSeparator() + field;
 			}
 		}
 
@@ -263,7 +264,7 @@ public class Table implements ITable {
 			if (i == 0) {
 				row = columns[i];
 			} else {
-				row += SEPARATOR + columns[i];
+				row += getDatabase().getConfig().getFieldSeparator() + columns[i];
 			}
 		}
 

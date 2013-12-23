@@ -20,6 +20,8 @@ public interface IDatabase {
 
 	void flush() throws KweryException;
 
+	KweryConfig getConfig();
+	
 	ITable[] getTables();
 
 	ITable getTable(String name, boolean create);

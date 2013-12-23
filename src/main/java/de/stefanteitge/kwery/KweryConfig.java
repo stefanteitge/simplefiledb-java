@@ -14,18 +14,25 @@
  * You should have received a copy of the GNU General Public License
  * along with Kwery.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.stefanteitge.kwery.internal;
+package de.stefanteitge.kwery;
 
-import java.util.Arrays;
+public class KweryConfig {
 
-public class KweryUtil {
+	public static final String DEFAULT_FIELD_SEPARATOR = "||";
 	
-	private KweryUtil() {
+	private String fieldSeparator;
+	
+	public static KweryConfig createDefault() {
+		KweryConfig config = new KweryConfig();
+		config.setFieldSeparator(DEFAULT_FIELD_SEPARATOR);
+		return config;
 	}
-	
-	public static <R> R[] concat(R[] first, R[] second) {
-		R[] result = Arrays.copyOf(first, first.length + second.length);
-		System.arraycopy(second, 0, result, first.length, second.length);
-		return result;
+
+	public String getFieldSeparator() {
+		return fieldSeparator;
+	}
+
+	public void setFieldSeparator(String fieldSeparator) {
+		this.fieldSeparator = fieldSeparator;
 	}
 }

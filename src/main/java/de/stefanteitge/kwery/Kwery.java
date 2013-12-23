@@ -26,10 +26,14 @@ public class Kwery {
 	}
 
 	public static IDatabase getDatabase(File directory) throws KweryException {
+		return getDatabase(directory, KweryConfig.createDefault());
+	}
+	
+	public static IDatabase getDatabase(File directory, KweryConfig config) throws KweryException {
 		if (directory == null || !directory.exists() || !directory.isDirectory()) {
 			throw new KweryException("Database directory is invalid");
 		}
 
-		return new Database(directory);
+		return new Database(directory, config);
 	}
 }

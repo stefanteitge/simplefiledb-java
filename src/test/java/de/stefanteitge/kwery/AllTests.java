@@ -24,7 +24,8 @@ import org.junit.runners.Suite;
 	KweryTest.class,
 	DatabaseTest.class,
 	TableTest.class,
-	EntityTest.class
+	EntityTest.class,
+	ConfigTest.class,
 })
 
 public class AllTests {

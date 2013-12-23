@@ -25,6 +25,7 @@ import com.google.common.base.Objects;
 
 import de.stefanteitge.kwery.IDatabase;
 import de.stefanteitge.kwery.ITable;
+import de.stefanteitge.kwery.KweryConfig;
 import de.stefanteitge.kwery.KweryException;
 
 public class Database implements IDatabase {
@@ -35,12 +36,15 @@ public class Database implements IDatabase {
 
 	private final File directory;
 
+	private KweryConfig config;
+
 	public File getDirectory() {
 		return directory;
 	}
 
-	public Database(File directory) {
+	public Database(File directory, KweryConfig config) {
 		this.directory = directory;
+		this.config = config;
 
 		tableMap = new HashMap<String, Table>();
 
@@ -60,6 +64,10 @@ public class Database implements IDatabase {
 				// TODO log
 			}
 		}
+	}
+
+	public KweryConfig getConfig() {
+		return config;
 	}
 
 	@Override

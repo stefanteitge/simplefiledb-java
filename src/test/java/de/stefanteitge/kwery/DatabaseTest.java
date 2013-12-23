@@ -37,7 +37,7 @@ public class DatabaseTest {
 
 		Assert.assertNotNull("Database may not be null", database);
 
-		Assert.assertEquals("Table count mismatch", 3, database.getTables().length);
+		Assert.assertEquals("Table count mismatch", 4, database.getTables().length);
 	}
 
 	@Test
@@ -50,7 +50,7 @@ public class DatabaseTest {
 
 		Assert.assertNotNull("Table may not be null", tableA);
 
-		ITable tableD = database.getTable("d", false);
+		ITable tableD = database.getTable("q", false);
 
 		Assert.assertNull("Table must be null", tableD);
 	}
