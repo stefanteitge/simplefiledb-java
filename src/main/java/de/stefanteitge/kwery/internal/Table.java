@@ -103,14 +103,8 @@ public class Table implements ITable {
 	@Override
 	public void addColumn(String column) {
 		// TODO Auto-generated method stub
-		columns = concat(columns, new String[] {column});
+		columns = KweryUtil.concat(columns, new String[] {column});
 		columnsModified = true;
-	}
-
-	public static <T> T[] concat(T[] first, T[] second) {
-		T[] result = Arrays.copyOf(first, first.length + second.length);
-		System.arraycopy(second, 0, result, first.length, second.length);
-		return result;
 	}
 
 	@Override
