@@ -22,9 +22,15 @@ public class KweryConfig {
 	
 	private String fieldSeparator;
 	
+	private boolean requireColumnDeclaration;
+	
+	private KweryConfig() {
+	}
+	
 	public static KweryConfig createDefault() {
 		KweryConfig config = new KweryConfig();
 		config.setFieldSeparator(DEFAULT_FIELD_SEPARATOR);
+		config.setRequireColumnDeclaration(true);
 		return config;
 	}
 
@@ -32,7 +38,15 @@ public class KweryConfig {
 		return fieldSeparator;
 	}
 
+	public boolean getRequireColumnDeclaration() {
+		return requireColumnDeclaration;
+	}
+
 	public void setFieldSeparator(String fieldSeparator) {
 		this.fieldSeparator = fieldSeparator;
+	}
+	
+	public void setRequireColumnDeclaration(boolean requireColumnDeclaration) {
+		this.requireColumnDeclaration = requireColumnDeclaration;
 	}
 }

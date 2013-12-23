@@ -44,6 +44,15 @@ public class Entity implements IEntity {
 
 	@Override
 	public String getValue(String column) {
+		if (!isColumnInTable(column)) {
+			if (getTable().getDatabase().getConfig().getRequireColumnDeclaration()) {
+				// TODO maybe use custom runtime exception here
+				throw new RuntimeException("Column " + column + " does no exist in table");
+			}
+			
+			return null;
+		}
+		
 		return fields.get(column);
 	}
 
@@ -60,8 +69,12 @@ public class Entity implements IEntity {
 	@Override
 	public void setValue(String column, String value) {
 		if (!isColumnInTable(column)) {
-			// TODO maybe use custom runtime exception here
-			throw new RuntimeException("Column " + column + " does no exist in table");
+			if (getTable().getDatabase().getConfig().getRequireColumnDeclaration()) {
+				// TODO maybe use custom runtime exception here
+				throw new RuntimeException("Column " + column + " does no exist in table");
+			}
+			
+			getTable().addColumn(column);
 		}
 
 		String oldValue = fields.put(column, value);

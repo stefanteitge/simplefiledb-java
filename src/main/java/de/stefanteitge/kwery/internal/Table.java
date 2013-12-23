@@ -39,10 +39,6 @@ import de.stefanteitge.kwery.KweryException;
 
 public class Table implements ITable {
 
-	//private static final String SEPARATOR = "||";
-
-	//private static final String SEPARATOR_REGEX = "\\|\\|";
-
 	private final File file;
 
 	private List<Entity> entityList;
@@ -93,11 +89,9 @@ public class Table implements ITable {
 			}
 			fr.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new KweryException("Table file not found", e);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new KweryException("Table file access failed", e);
 		}
 	}
 
@@ -150,8 +144,12 @@ public class Table implements ITable {
 	@Override
 	public IEntity simpleQuery(String column, String value) {
 		if (!isColumnInTable(column)) {
-			// TODO maybe use custom runtime exception here
-			throw new RuntimeException("Column " + column + " does no exist in table");
+			if (getDatabase().getConfig().getRequireColumnDeclaration()) {
+				// TODO maybe use custom runtime exception here
+				throw new RuntimeException("Column " + column + " does no exist in table");
+			}
+			
+			addColumn(column);
 		}
 
 		for (Entity entity : entityList) {

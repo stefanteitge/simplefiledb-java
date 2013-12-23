@@ -57,6 +57,45 @@ public class TableTest {
 
 		Assert.assertEquals("Column name mismatch", "p", columns[3]);
 	}
+	
+	@Test
+	public void testColumnDeclarationRequired() throws KweryException {
+		IDatabase database = Kwery.getDatabase(new File(TestSettings.TEST01_PATH));
+		database.getConfig().setRequireColumnDeclaration(false);
+		ITable table = database.getTable("b", false);
+		IEntity entity = table.simpleQuery("r", "b");
+		entity.setValue("new", "newValue");
+		
+		Assert.assertEquals("Column count didn't rise", 5, table.getColumns().length);
+		
+		String value = entity.getValue("newnew");
+
+		Assert.assertNull("Column must be retrievable", value);
+		
+		IDatabase database2 = Kwery.getDatabase(new File(TestSettings.TEST01_PATH));
+		database2.getConfig().setRequireColumnDeclaration(true);
+		ITable table2 = database2.getTable("b", false);
+		IEntity entity2 = table2.simpleQuery("r", "b");
+		
+		boolean hasException = false;
+		try {
+			entity2.setValue("new2", "newValue2");
+		} catch (RuntimeException e) {
+			hasException = true;
+		}
+		
+		Assert.assertEquals("Column count rose", 4, table2.getColumns().length);
+		Assert.assertEquals("Column access must result in exception", true, hasException);
+		
+		boolean hasException2 = false;
+		try {
+			value = entity2.getValue("newnew");
+		} catch (Exception e) {
+			hasException2 = true;
+		}
+
+		Assert.assertEquals("Column access must result in exception", true, hasException2);
+	}
 
 	@Test
 	public void testGetDatabase() throws KweryException {

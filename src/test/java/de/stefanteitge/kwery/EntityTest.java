@@ -39,9 +39,14 @@ public class EntityTest {
 
 		Assert.assertEquals("Entity value mismatch", "f", valueR);
 
-		String valueZ = entities[0].getValue("z");
+		boolean hadException = false;
+		try {
+			entities[0].getValue("z");
+		} catch (RuntimeException e) {
+			hadException = true;
+		}
 
-		Assert.assertNull("Entity not null", valueZ);
+		Assert.assertEquals("Entity not null", true, hadException);
 	}
 
 	@Test
