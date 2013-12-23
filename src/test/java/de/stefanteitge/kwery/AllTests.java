@@ -26,6 +26,7 @@ import org.junit.runners.Suite;
 	TableTest.class,
 	EntityTest.class,
 	ConfigTest.class,
+	BeanifyTest.class,
 })
 
 public class AllTests {

@@ -18,6 +18,8 @@ package de.stefanteitge.kwery;
 
 public interface IEntity {
 
+	<T> T beanify(Class<T> clazz) throws KweryException;
+	
 	ITable getTable();
 
 	String getValue(String column);

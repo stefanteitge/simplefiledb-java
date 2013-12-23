@@ -16,16 +16,31 @@
  */
 package de.stefanteitge.kwery;
 
+import java.io.File;
 
-public class KweryException extends Exception {
+import org.junit.Assert;
+import org.junit.Test;
 
-	private static final long serialVersionUID = 1L;
+public class BeanifyTest {
 
-	public KweryException(String message) {
-		super(message);
-	}
+	@Test
+	public void testBeanify() {
+		IDatabase database = null;
+		try {
+			database = Kwery.getDatabase(new File(TestSettings.TEST01_PATH));
+		} catch (KweryException e1) {
+			Assert.fail("Caught exception during opening database");
+		}
 
-	public KweryException(String message, Throwable cause) {
-		super(message, cause);
+		SimpleBean bean = null;
+		try {
+			ITable table = database.getTable("e", false);
+			bean = table.getAll()[0].beanify(SimpleBean.class);
+		} catch (KweryException e) {
+			Assert.fail("Caught exception during beanify");
+		}
+		
+		Assert.assertEquals("Expected correct id", "42", bean.getId());
+		Assert.assertEquals("Expected correct id", "Anna", bean.getName());
 	}
 }

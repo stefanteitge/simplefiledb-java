@@ -16,13 +16,17 @@
  */
 package de.stefanteitge.kwery.internal;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Map;
+
+import org.apache.commons.beanutils.PropertyUtils;
 
 import com.google.common.base.Objects;
 
 import de.stefanteitge.kwery.IEntity;
 import de.stefanteitge.kwery.ITable;
+import de.stefanteitge.kwery.KweryException;
 
 public class Entity implements IEntity {
 
@@ -35,6 +39,27 @@ public class Entity implements IEntity {
 	public Entity(Table table, Map<String, String> fields) {
 		this.table = table;
 		this.fields = fields;
+	}
+	
+	@Override
+	public <T> T beanify(Class<T> clazz) throws KweryException {
+		try {
+			T bean = clazz.newInstance();
+			
+			for (String column : getTable().getColumns()) {
+				PropertyUtils.setSimpleProperty(bean, column, getValue(column));
+			}
+			
+			return bean;
+		} catch (InstantiationException e) {
+			throw new KweryException("Beanify failed", e);
+		} catch (IllegalAccessException e) {
+			throw new KweryException("Beanify failed", e);
+		} catch (NoSuchMethodException e) {
+			throw new KweryException("Beanify failed", e);
+		} catch (InvocationTargetException e) {
+			throw new KweryException("Beanify failed", e);
+		}
 	}
 
 	@Override
