@@ -104,7 +104,7 @@ public class Entity implements IEntity {
 
 		String oldValue = fields.put(column, value);
 
-		if (oldValue != null && !oldValue.equals(value)) {
+		if ((oldValue != null && !oldValue.equals(value)) || (oldValue == null && value != null)) {
 			modified = true;
 		}
 	}

@@ -174,7 +174,7 @@ public class Table implements ITable {
 
 			bw.println(makeColumnRow());
 
-			for (IEntity entity : getAll()) {
+			for (IEntity entity : entityList) {
 				bw.println(makeRow(entity));
 				entity.setModified(false);
 			}
