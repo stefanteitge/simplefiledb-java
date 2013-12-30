@@ -60,7 +60,7 @@ public class Table implements ITable {
 
 		// TODO query create boolean flag
 		// TODO: touch file if it does not exist
-		if (!file.exists()){
+		if (!file.exists()) {
 			  try {
 				file.createNewFile();
 			} catch (IOException e) {
@@ -78,7 +78,8 @@ public class Table implements ITable {
 			boolean first = true;
 			String s;
 			while ((s = br.readLine()) != null) {
-				String[] fields = s.split(Pattern.quote(getDatabase().getConfig().getFieldSeparator()));
+				String splitter = Pattern.quote(getDatabase().getConfig().getFieldSeparator());
+				String[] fields = s.split(splitter);
 
 				if (first) {
 					columns = fields;

@@ -24,12 +24,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import de.stefanteitge.kwery.IDatabase;
-import de.stefanteitge.kwery.IEntity;
-import de.stefanteitge.kwery.ITable;
-import de.stefanteitge.kwery.Kwery;
-import de.stefanteitge.kwery.KweryException;
-
 public class TableTest {
 	
 	@Rule
@@ -141,7 +135,7 @@ public class TableTest {
 		Assert.assertEquals("Column value mismatch", "d", entity.getValue("t"));
 	}
 
-	@Test(expected=RuntimeException.class)
+	@Test(expected = RuntimeException.class)
 	public void testSimpleQueryInvalidColumn() throws KweryException {
 		IDatabase database = Kwery.getDatabase(new File(TestSettings.TEST01_PATH));
 		ITable table = database.getTable("b", false);

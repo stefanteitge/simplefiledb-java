@@ -21,12 +21,6 @@ import java.io.File;
 import org.junit.Assert;
 import org.junit.Test;
 
-import de.stefanteitge.kwery.IDatabase;
-import de.stefanteitge.kwery.IEntity;
-import de.stefanteitge.kwery.ITable;
-import de.stefanteitge.kwery.Kwery;
-import de.stefanteitge.kwery.KweryException;
-
 public class EntityTest {
 
 	@Test
@@ -62,7 +56,7 @@ public class EntityTest {
 		Assert.assertEquals("Entity value mismatch", "ff", valueR);
 	}
 
-	@Test(expected=RuntimeException.class)
+	@Test(expected = RuntimeException.class)
 	public void testSetValueInvalidColumn() throws KweryException {
 		IDatabase database = Kwery.getDatabase(new File(TestSettings.TEST01_PATH));
 		ITable table = database.getTable("b", false);
@@ -83,7 +77,8 @@ public class EntityTest {
 
 		Assert.assertEquals("Table is modified", entity.getTable().isModified(), false);
 
-		Assert.assertEquals("Table is modified", entity.getTable().getDatabase().isModified(), false);
+		boolean isModified = entity.getTable().getDatabase().isModified();
+		Assert.assertEquals("Table is modified", isModified, false);
 
 		entity.setValue("r", "f");
 
@@ -95,6 +90,7 @@ public class EntityTest {
 
 		Assert.assertEquals("Table is not modified", entity.getTable().isModified(), true);
 
-		Assert.assertEquals("Table is not modified", entity.getTable().getDatabase().isModified(), true);
+		boolean isModified2 = entity.getTable().getDatabase().isModified();
+		Assert.assertEquals("Table is not modified", isModified2, true);
 	}
 }

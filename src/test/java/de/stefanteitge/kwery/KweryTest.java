@@ -21,10 +21,6 @@ import java.io.File;
 import org.junit.Assert;
 import org.junit.Test;
 
-import de.stefanteitge.kwery.IDatabase;
-import de.stefanteitge.kwery.Kwery;
-import de.stefanteitge.kwery.KweryException;
-
 public class KweryTest {
 
 	@Test

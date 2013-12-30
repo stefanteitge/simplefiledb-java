@@ -38,10 +38,6 @@ public class Database implements IDatabase {
 
 	private KweryConfig config;
 
-	public File getDirectory() {
-		return directory;
-	}
-
 	public Database(File directory, KweryConfig config) {
 		this.directory = directory;
 		this.config = config;
@@ -68,6 +64,10 @@ public class Database implements IDatabase {
 
 	public KweryConfig getConfig() {
 		return config;
+	}
+	
+	public File getDirectory() {
+		return directory;
 	}
 
 	@Override
