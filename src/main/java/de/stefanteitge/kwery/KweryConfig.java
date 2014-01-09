@@ -18,21 +18,31 @@ package de.stefanteitge.kwery;
 
 public class KweryConfig {
 
+	private static final String DEFAULT_ENCODING = "UTF-8";
+
 	public static final String DEFAULT_FIELD_SEPARATOR = "||";
 	
 	private String fieldSeparator;
 	
 	private boolean requireColumnDeclaration;
 	
+	private String encoding;
+	
 	private KweryConfig() {
 	}
 	
 	public static KweryConfig createDefault() {
 		KweryConfig config = new KweryConfig();
+		config.setEncoding(DEFAULT_ENCODING);
 		config.setFieldSeparator(DEFAULT_FIELD_SEPARATOR);
 		config.setRequireColumnDeclaration(true);
 		return config;
 	}
+
+	public String getEncoding() {
+		return encoding;
+	}
+
 
 	public String getFieldSeparator() {
 		return fieldSeparator;
@@ -40,6 +50,10 @@ public class KweryConfig {
 
 	public boolean getRequireColumnDeclaration() {
 		return requireColumnDeclaration;
+	}
+	
+	public void setEncoding(String encoding) {
+		this.encoding = encoding;
 	}
 
 	public void setFieldSeparator(String fieldSeparator) {

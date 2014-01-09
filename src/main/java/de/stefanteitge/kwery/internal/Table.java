@@ -18,10 +18,12 @@ package de.stefanteitge.kwery.internal;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,8 +75,8 @@ public class Table implements ITable {
 		entityList = new ArrayList<Entity>();
 
 		try {
-			FileReader fr = new FileReader(file);
-			BufferedReader br = new BufferedReader(fr);
+			InputStreamReader isr = new InputStreamReader(new FileInputStream(file), getDatabase().getConfig().getEncoding());
+			BufferedReader br = new BufferedReader(isr);
 			boolean first = true;
 			String s;
 			while ((s = br.readLine()) != null) {
@@ -88,7 +90,7 @@ public class Table implements ITable {
 					entityList.add(new Entity(this, createEntityMap(fields)));
 				}
 			}
-			fr.close();
+			isr.close();
 		} catch (FileNotFoundException e) {
 			throw new KweryException("Table file not found", e);
 		} catch (IOException e) {
