@@ -14,109 +14,108 @@
  * You should have received a copy of the GNU General Public License
  * along with Kwery.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package de.stefanteitge.kwery.internal;
+
+import com.google.common.base.MoreObjects;
+import de.stefanteitge.kwery.IEntity;
+import de.stefanteitge.kwery.ITable;
+import de.stefanteitge.kwery.KweryException;
+import org.apache.commons.beanutils.PropertyUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Map;
 
-import org.apache.commons.beanutils.PropertyUtils;
-
-import com.google.common.base.Objects;
-
-import de.stefanteitge.kwery.IEntity;
-import de.stefanteitge.kwery.ITable;
-import de.stefanteitge.kwery.KweryException;
-
 public class Entity implements IEntity {
 
-	private final Table table;
+  private final Table table;
 
-	private final Map<String, String> fields;
+  private final Map<String, String> fields;
 
-	private boolean modified;
+  private boolean modified;
 
-	public Entity(Table table, Map<String, String> fields) {
-		this.table = table;
-		this.fields = fields;
-	}
-	
-	@Override
-	public <T> T beanify(Class<T> clazz) throws KweryException {
-		try {
-			T bean = clazz.newInstance();
-			
-			for (String column : getTable().getColumns()) {
-				PropertyUtils.setSimpleProperty(bean, column, getValue(column));
-			}
-			
-			return bean;
-		} catch (InstantiationException e) {
-			throw new KweryException("Beanify failed", e);
-		} catch (IllegalAccessException e) {
-			throw new KweryException("Beanify failed", e);
-		} catch (NoSuchMethodException e) {
-			throw new KweryException("Beanify failed", e);
-		} catch (InvocationTargetException e) {
-			throw new KweryException("Beanify failed", e);
-		}
-	}
+  public Entity(Table table, Map<String, String> fields) {
+    this.table = table;
+    this.fields = fields;
+  }
 
-	@Override
-	public ITable getTable() {
-		return table;
-	}
+  @Override
+  public <T> T beanify(Class<T> clazz) throws KweryException {
+    try {
+      T bean = clazz.getConstructor().newInstance();
 
-	@Override
-	public String getValue(String column) {
-		if (!isColumnInTable(column)) {
-			if (getTable().getDatabase().getConfig().getRequireColumnDeclaration()) {
-				// TODO maybe use custom runtime exception here
-				throw new RuntimeException("Column " + column + " does no exist in table");
-			}
-			
-			return null;
-		}
-		
-		return fields.get(column);
-	}
+      for (String column : getTable().getColumns()) {
+        PropertyUtils.setSimpleProperty(bean, column, getValue(column));
+      }
 
-	@Override
-	public boolean isModified() {
-		return modified;
-	}
+      return bean;
+    } catch (InstantiationException e) {
+      throw new KweryException("Beanify failed", e);
+    } catch (IllegalAccessException e) {
+      throw new KweryException("Beanify failed", e);
+    } catch (NoSuchMethodException e) {
+      throw new KweryException("Beanify failed", e);
+    } catch (InvocationTargetException e) {
+      throw new KweryException("Beanify failed", e);
+    }
+  }
 
-	@Override
-	public void setModified(boolean modified) {
-		this.modified = modified;
-	}
+  @Override
+  public ITable getTable() {
+    return table;
+  }
 
-	@Override
-	public void setValue(String column, String value) {
-		if (!isColumnInTable(column)) {
-			if (getTable().getDatabase().getConfig().getRequireColumnDeclaration()) {
-				// TODO maybe use custom runtime exception here
-				throw new RuntimeException("Column " + column + " does no exist in table");
-			}
-			
-			getTable().addColumn(column);
-		}
+  @Override
+  public String getValue(String column) {
+    if (!isColumnInTable(column)) {
+      if (getTable().getDatabase().getConfig().getRequireColumnDeclaration()) {
+        // TODO maybe use custom runtime exception here
+        throw new RuntimeException("Column " + column + " does no exist in table");
+      }
 
-		String oldValue = fields.put(column, value);
+      return null;
+    }
 
-		if ((oldValue != null && !oldValue.equals(value)) || (oldValue == null && value != null)) {
-			modified = true;
-		}
-	}
-	
-	@Override
-	public String toString() {
-		return Objects.toStringHelper(getClass())
-			      .add("Table", table)
-			      .toString();
-	}
+    return fields.get(column);
+  }
 
-	protected boolean isColumnInTable(String column) {
-		return Arrays.asList(table.getColumns()).contains(column);
-	}
+  @Override
+  public boolean isModified() {
+    return modified;
+  }
+
+  @Override
+  public void setModified(boolean modified) {
+    this.modified = modified;
+  }
+
+  @Override
+  public void setValue(String column, String value) {
+    if (!isColumnInTable(column)) {
+      if (getTable().getDatabase().getConfig().getRequireColumnDeclaration()) {
+        // TODO maybe use custom runtime exception here
+        throw new RuntimeException("Column " + column + " does no exist in table");
+      }
+
+      getTable().addColumn(column);
+    }
+
+    String oldValue = fields.put(column, value);
+
+    if ((oldValue != null && !oldValue.equals(value)) || (oldValue == null && value != null)) {
+      modified = true;
+    }
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(getClass())
+        .add("Table", table)
+        .toString();
+  }
+
+  protected boolean isColumnInTable(String column) {
+    return Arrays.asList(table.getColumns()).contains(column);
+  }
 }

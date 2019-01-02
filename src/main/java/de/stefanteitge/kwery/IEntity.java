@@ -14,19 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with Kwery.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package de.stefanteitge.kwery;
 
 public interface IEntity {
 
-	<T> T beanify(Class<T> clazz) throws KweryException;
-	
-	ITable getTable();
+  <T> T beanify(Class<T> clazz) throws KweryException;
 
-	String getValue(String column);
+  ITable getTable();
 
-	boolean isModified();
+  String getValue(String column);
 
-	void setValue(String column, String value);
+  boolean isModified();
 
-	void setModified(boolean modified);
+  void setValue(String column, String value);
+
+  void setModified(boolean modified);
 }

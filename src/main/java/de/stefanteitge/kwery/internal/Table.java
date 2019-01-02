@@ -14,7 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with Kwery.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package de.stefanteitge.kwery.internal;
+
+import com.google.common.base.MoreObjects;
+import de.stefanteitge.kwery.IDatabase;
+import de.stefanteitge.kwery.IEntity;
+import de.stefanteitge.kwery.ITable;
+import de.stefanteitge.kwery.KweryException;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -31,243 +38,239 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import com.google.common.base.Objects;
-
-import de.stefanteitge.kwery.IDatabase;
-import de.stefanteitge.kwery.IEntity;
-import de.stefanteitge.kwery.ITable;
-import de.stefanteitge.kwery.KweryException;
-
 public class Table implements ITable {
 
-	private final File file;
+  private final File file;
 
-	private List<Entity> entityList;
+  private List<Entity> entityList;
 
-	private String[] columns;
+  private String[] columns;
 
-	private String name;
+  private String name;
 
-	private final IDatabase database;
+  private final IDatabase database;
 
-	private boolean entityCountModified;
-	
-	private boolean columnsModified;
+  private boolean entityCountModified;
 
-	public Table(Database database, File file) throws KweryException {
-		this.database = database;
-		this.file = file;
-		columns = new String[0];
+  private boolean columnsModified;
 
-		// TODO query create boolean flag
-		// TODO: touch file if it does not exist
-		if (!file.exists()) {
-			  try {
-				file.createNewFile();
-			} catch (IOException e) {
-				throw new KweryException("Could not create table file", e);
-			}
-		}
+  public Table(Database database, File file) throws KweryException {
+    this.database = database;
+    this.file = file;
+    columns = new String[0];
 
-		name = file.getName().replaceAll(Database.KWERY_EXTENSION, "");
+    // TODO query create boolean flag
+    // TODO: touch file if it does not exist
+    if (!file.exists()) {
+      try {
+        file.createNewFile();
+      } catch (IOException e) {
+        throw new KweryException("Could not create table file", e);
+      }
+    }
 
-		entityList = new ArrayList<Entity>();
+    name = file.getName().replaceAll(Database.KWERY_EXTENSION, "");
 
-		try {
-			InputStreamReader isr = new InputStreamReader(new FileInputStream(file), getDatabase().getConfig().getEncoding());
-			BufferedReader br = new BufferedReader(isr);
-			boolean first = true;
-			String s;
-			while ((s = br.readLine()) != null) {
-				String splitter = Pattern.quote(getDatabase().getConfig().getFieldSeparator());
-				String[] fields = s.split(splitter);
+    entityList = new ArrayList<Entity>();
 
-				if (first) {
-					columns = fields;
-					first = false;
-				} else {
-					entityList.add(new Entity(this, createEntityMap(fields)));
-				}
-			}
-			isr.close();
-		} catch (FileNotFoundException e) {
-			throw new KweryException("Table file not found", e);
-		} catch (IOException e) {
-			throw new KweryException("Table file access failed", e);
-		}
-	}
+    try {
+      InputStreamReader isr = new InputStreamReader(
+          new FileInputStream(file),
+          getDatabase().getConfig().getEncoding());
 
-	@Override
-	public void addColumn(String column) {
-		// TODO Auto-generated method stub
-		columns = KweryUtil.concat(columns, new String[] {column});
-		columnsModified = true;
-	}
+      BufferedReader br = new BufferedReader(isr);
+      boolean first = true;
+      String s;
+      while ((s = br.readLine()) != null) {
+        String splitter = Pattern.quote(getDatabase().getConfig().getFieldSeparator());
+        String[] fields = s.split(splitter);
 
-	@Override
-	public IEntity createEntity() {
-		Entity entity = new Entity(this, new HashMap<String, String>());
+        if (first) {
+          columns = fields;
+          first = false;
+        } else {
+          entityList.add(new Entity(this, createEntityMap(fields)));
+        }
+      }
+      isr.close();
+    } catch (FileNotFoundException e) {
+      throw new KweryException("Table file not found", e);
+    } catch (IOException e) {
+      throw new KweryException("Table file access failed", e);
+    }
+  }
 
-		entityList.add(entity);
-		entityCountModified = true;
+  @Override
+  public void addColumn(String column) {
+    // TODO Auto-generated method stub
+    columns = KweryUtil.concat(columns, new String[] {column});
+    columnsModified = true;
+  }
 
-		return entity;
-	}
+  @Override
+  public IEntity createEntity() {
+    Entity entity = new Entity(this, new HashMap<String, String>());
 
-	@Override
-	public void ensureColumnsExist(String[] newColumns) {
-		for (String newColumn : newColumns) {
-			if (!isColumnInTable(newColumn)) {
-				addColumn(newColumn);
-			}
-		}
-	}
+    entityList.add(entity);
+    entityCountModified = true;
 
-	@Override
-	public IEntity[] getAll() {
-		return entityList.toArray(new IEntity[0]);
-	}
+    return entity;
+  }
 
-	@Override
-	public IDatabase getDatabase() {
-		return database;
-	}
+  @Override
+  public void ensureColumnsExist(String[] newColumns) {
+    for (String newColumn : newColumns) {
+      if (!isColumnInTable(newColumn)) {
+        addColumn(newColumn);
+      }
+    }
+  }
 
-	@Override
-	public String[] getColumns() {
-		return columns;
-	}
+  @Override
+  public IEntity[] getAll() {
+    return entityList.toArray(new IEntity[0]);
+  }
 
-	@Override
-	public String getName() {
-		return name;
-	}
+  @Override
+  public IDatabase getDatabase() {
+    return database;
+  }
 
-	@Override
-	public IEntity simpleQuery(String column, String value) {
-		if (!isColumnInTable(column)) {
-			if (getDatabase().getConfig().getRequireColumnDeclaration()) {
-				// TODO maybe use custom runtime exception here
-				throw new RuntimeException("Column " + column + " does no exist in table");
-			}
-			
-			addColumn(column);
-		}
+  @Override
+  public String[] getColumns() {
+    return columns;
+  }
 
-		for (Entity entity : entityList) {
-			String queryValue = entity.getValue(column);
+  @Override
+  public String getName() {
+    return name;
+  }
 
-			boolean areBothNull = queryValue == null && value == null;
-			boolean comparisonByValue = value != null && value.equals(queryValue);
-			boolean comparisonByQValue = queryValue != null && queryValue.equals(value);
-			if (areBothNull || comparisonByValue || comparisonByQValue) {
-				return entity;
-			}
-		}
+  @Override
+  public IEntity simpleQuery(String column, String value) {
+    if (!isColumnInTable(column)) {
+      if (getDatabase().getConfig().getRequireColumnDeclaration()) {
+        // TODO maybe use custom runtime exception here
+        throw new RuntimeException("Column " + column + " does no exist in table");
+      }
 
-		return null;
-	}
+      addColumn(column);
+    }
 
-	@Override
-	public void flush() throws KweryException {
-		try {
-			FileWriter writer = new FileWriter(file);
-			PrintWriter bw = new PrintWriter(writer);
+    for (Entity entity : entityList) {
+      String queryValue = entity.getValue(column);
 
-			bw.println(makeColumnRow());
+      boolean areBothNull = queryValue == null && value == null;
+      boolean comparisonByValue = value != null && value.equals(queryValue);
+      boolean comparisonByQValue = queryValue != null && queryValue.equals(value);
+      if (areBothNull || comparisonByValue || comparisonByQValue) {
+        return entity;
+      }
+    }
 
-			for (IEntity entity : entityList) {
-				bw.println(makeRow(entity));
-				entity.setModified(false);
-			}
+    return null;
+  }
 
-			bw.close();
+  @Override
+  public void flush() throws KweryException {
+    try {
+      FileWriter writer = new FileWriter(file);
+      PrintWriter bw = new PrintWriter(writer);
 
-			entityCountModified = false;
-			columnsModified = false;
-		} catch (IOException e) {
-			// TODO rollback on failure (isModified)?
-			throw new KweryException("Failed to save table " + name, e);
-		}
-	}
+      bw.println(makeColumnRow());
 
-	@Override
-	public boolean isModified() {
-		if (columnsModified) {
-			return true;
-		}
-		
-		if (entityCountModified) {
-			return true;
-		}
+      for (IEntity entity : entityList) {
+        bw.println(makeRow(entity));
+        entity.setModified(false);
+      }
 
-		for (Entity entity : entityList) {
-			if (entity.isModified()) {
-				return true;
-			}
-		}
+      bw.close();
 
-		return false;
-	}
-	
-	@Override
-	public String toString() {
-		return Objects.toStringHelper(getClass())
-			      .add("Name", name)
-			      .toString();
-	}
+      entityCountModified = false;
+      columnsModified = false;
+    } catch (IOException e) {
+      // TODO rollback on failure (isModified)?
+      throw new KweryException("Failed to save table " + name, e);
+    }
+  }
 
-	protected boolean isColumnInTable(String column) {
-		// TODO duplicate method in Entity
-		return Arrays.asList(columns).contains(column);
-	}
+  @Override
+  public boolean isModified() {
+    if (columnsModified) {
+      return true;
+    }
 
-	private Map<String, String> createEntityMap(String[] fields) {
-		int length = Math.min(columns.length, fields.length);
+    if (entityCountModified) {
+      return true;
+    }
 
-		if (fields.length > length) {
-			// TODO log too many column data here
-		}
+    for (Entity entity : entityList) {
+      if (entity.isModified()) {
+        return true;
+      }
+    }
 
-		Map<String, String> map = new HashMap<String, String>();
+    return false;
+  }
 
-		for (int i = 0; i < length; i++) {
-			map.put(columns[i], fields[i]);
-		}
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(getClass())
+        .add("Name", name)
+        .toString();
+  }
 
-		return map;
-	}
+  protected boolean isColumnInTable(String column) {
+    // TODO duplicate method in Entity
+    return Arrays.asList(columns).contains(column);
+  }
 
-	private String makeRow(IEntity entity) {
-		String row = "";
+  private Map<String, String> createEntityMap(String[] fields) {
+    int length = Math.min(columns.length, fields.length);
 
-		for (int i = 0; i < columns.length; i++) {
-			String field = entity.getValue(columns[i]);
-			if (field == null) {
-				field = "";
-			}
+    if (fields.length > length) {
+      // TODO log too many column data here
+    }
 
-			if (i == 0) {
-				row = field;
-			} else {
-				row += getDatabase().getConfig().getFieldSeparator() + field;
-			}
-		}
+    Map<String, String> map = new HashMap<String, String>();
 
-		return row;
-	}
+    for (int i = 0; i < length; i++) {
+      map.put(columns[i], fields[i]);
+    }
 
-	private String makeColumnRow() {
-		String row = "";
+    return map;
+  }
 
-		for (int i = 0; i < columns.length; i++) {
-			if (i == 0) {
-				row = columns[i];
-			} else {
-				row += getDatabase().getConfig().getFieldSeparator() + columns[i];
-			}
-		}
+  private String makeRow(IEntity entity) {
+    String row = "";
 
-		return row;
-	}
+    for (int i = 0; i < columns.length; i++) {
+      String field = entity.getValue(columns[i]);
+      if (field == null) {
+        field = "";
+      }
+
+      if (i == 0) {
+        row = field;
+      } else {
+        row += getDatabase().getConfig().getFieldSeparator() + field;
+      }
+    }
+
+    return row;
+  }
+
+  private String makeColumnRow() {
+    String row = "";
+
+    for (int i = 0; i < columns.length; i++) {
+      if (i == 0) {
+        row = columns[i];
+      } else {
+        row += getDatabase().getConfig().getFieldSeparator() + columns[i];
+      }
+    }
+
+    return row;
+  }
 }

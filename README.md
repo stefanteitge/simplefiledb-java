@@ -1,4 +1,4 @@
-# Kwery
+# Kwery Java Library
 
 [![Build Status](https://travis-ci.org/stefanteitge/kwery.png?branch=master)](https://travis-ci.org/stefanteitge/kwery)
 

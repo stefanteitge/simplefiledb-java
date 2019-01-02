@@ -14,26 +14,27 @@
  * You should have received a copy of the GNU General Public License
  * along with Kwery.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.stefanteitge.kwery;
 
-import java.io.File;
+package de.stefanteitge.kwery;
 
 import de.stefanteitge.kwery.internal.Database;
 
+import java.io.File;
+
 public class Kwery {
 
-	private Kwery() {
-	}
+  private Kwery() {
+  }
 
-	public static IDatabase getDatabase(File directory) throws KweryException {
-		return getDatabase(directory, KweryConfig.createDefault());
-	}
-	
-	public static IDatabase getDatabase(File directory, KweryConfig config) throws KweryException {
-		if (directory == null || !directory.exists() || !directory.isDirectory()) {
-			throw new KweryException("Database directory is invalid");
-		}
+  public static IDatabase getDatabase(File directory) throws KweryException {
+    return getDatabase(directory, KweryConfig.createDefault());
+  }
 
-		return new Database(directory, config);
-	}
+  public static IDatabase getDatabase(File directory, KweryConfig config) throws KweryException {
+    if (directory == null || !directory.exists() || !directory.isDirectory()) {
+      throw new KweryException("Database directory is invalid");
+    }
+
+    return new Database(directory, config);
+  }
 }

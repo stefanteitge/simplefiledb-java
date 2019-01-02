@@ -14,17 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with Kwery.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package de.stefanteitge.kwery;
 
 public interface IDatabase {
 
-	void flush() throws KweryException;
+  void flush() throws KweryException;
 
-	KweryConfig getConfig();
-	
-	ITable[] getTables();
+  KweryConfig getConfig();
 
-	ITable getTable(String name, boolean create);
+  ITable[] getTables();
 
-	boolean isModified();
+  ITable getTable(String name, boolean create);
+
+  boolean isModified();
 }

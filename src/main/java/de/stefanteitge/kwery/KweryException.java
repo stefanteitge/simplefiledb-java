@@ -14,18 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with Kwery.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package de.stefanteitge.kwery;
 
 
 public class KweryException extends Exception {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	public KweryException(String message) {
-		super(message);
-	}
+  public KweryException(String message) {
+    super(message);
+  }
 
-	public KweryException(String message, Throwable cause) {
-		super(message, cause);
-	}
+  public KweryException(String message, Throwable cause) {
+    super(message, cause);
+  }
 }
