@@ -163,7 +163,7 @@ public class TableTest {
 	public void testCreateTable() throws DatabaseException, IOException {
 		File folder = temporaryFolder.newFolder();
 
-		File tableFile = new File(folder, "a.SimpleFileDB");
+		File tableFile = new File(folder, "a.simplefiledb");
 
 		tableFile.delete();
 
@@ -183,14 +183,14 @@ public class TableTest {
 
 		Assert.assertTrue("Table file must exist at this point", tableFile.exists());
 
-		Assert.assertTrue("Table file must have a size greate zero", tableFile.length() > 0);
+		Assert.assertTrue("Table file must have a size greater zero", tableFile.length() > 0);
 	}
 
 	@Test
 	public void testCreateTableDisallowed() throws DatabaseException, IOException {
 		File folder = temporaryFolder.newFolder();
 
-		File tableFile = new File(folder, "a.SimpleFileDB");
+		File tableFile = new File(folder, "a.simplefiledb");
 
 		tableFile.delete();
 
