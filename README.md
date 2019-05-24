@@ -1,6 +1,6 @@
 # Kwery Java Library
 
-[![Build Status](https://travis-ci.org/stefanteitge/kwery-lib-java.png?branch=master)](https://travis-ci.org/stefanteitge/kwery-lib-java)
+[![Build Status](https://travis-ci.org/stefanteitge/simplefiledb.png?branch=master)](https://travis-ci.org/stefanteitge/simplefiledb)
 
 Kwery a simple flat file database.
 Its is intended to be used as a quick drop-in database for small projects.
