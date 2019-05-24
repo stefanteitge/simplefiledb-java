@@ -1,20 +1,20 @@
 /*
- * This file is part of Kwery.
+ * This file is part of SimpleFileDB.
  *
- * Kwery is free software: you can redistribute it and/or modify
+ * SimpleFileDB is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Kwery is distributed in the hope that it will be useful,
+ * SimpleFileDB is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Kwery.  If not, see <http://www.gnu.org/licenses/>.
+ * along with SimpleFileDB.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.stefanteitge.kwery;
+package de.kysy.simplefiledb;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,8 +32,8 @@ public class DatabaseTest {
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 	
 	@Test
-	public void testGetTables() throws KweryException {
-		IDatabase database = Kwery.getDatabase(new File(TestSettings.TEST01_PATH));
+	public void testGetTables() throws DatabaseException {
+		IDatabase database = DatabaseFactory.getDatabase(new File(TestSettings.TEST01_PATH));
 
 		Assert.assertNotNull("Database may not be null", database);
 
@@ -41,8 +41,8 @@ public class DatabaseTest {
 	}
 
 	@Test
-	public void testGetTable() throws KweryException {
-		IDatabase database = Kwery.getDatabase(new File(TestSettings.TEST01_PATH));
+	public void testGetTable() throws DatabaseException {
+		IDatabase database = DatabaseFactory.getDatabase(new File(TestSettings.TEST01_PATH));
 
 		Assert.assertNotNull("Database may not be null", database);
 
@@ -56,14 +56,14 @@ public class DatabaseTest {
 	}
 
 	@Test
-	public void testFlush() throws KweryException, IOException {
+	public void testFlush() throws DatabaseException, IOException {
 		File folder = temporaryFolder.newFolder();
-		File source = new File(TestSettings.TEST01_PATH, "c.kwery");
-		File target = new File(folder, "c.kwery");
+		File source = new File(TestSettings.TEST01_PATH, "c.simplefiledb");
+		File target = new File(folder, "c.simplefiledb");
 		
 		Files.copy(source, target);
 		
-		IDatabase database = Kwery.getDatabase(folder);
+		IDatabase database = DatabaseFactory.getDatabase(folder);
 
 		Assert.assertNotNull("Database may not be null", database);
 
@@ -83,7 +83,7 @@ public class DatabaseTest {
 
 		Assert.assertEquals("Database is still modified", database.isModified(), false);
 
-		IDatabase database2 = Kwery.getDatabase(folder);
+		IDatabase database2 = DatabaseFactory.getDatabase(folder);
 		ITable tableC2 = database2.getTable("c", false);
 		String value2 = tableC2.getAll()[0].getValue("s");
 

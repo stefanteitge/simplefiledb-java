@@ -1,20 +1,20 @@
 /*
- * This file is part of Kwery.
+ * This file is part of SimpleFileDB.
  *
- * Kwery is free software: you can redistribute it and/or modify
+ * SimpleFileDB is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Kwery is distributed in the hope that it will be useful,
+ * SimpleFileDB is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Kwery.  If not, see <http://www.gnu.org/licenses/>.
+ * along with SimpleFileDB.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.stefanteitge.kwery;
+package de.kysy.simplefiledb;
 
 import java.io.File;
 
@@ -27,8 +27,8 @@ public class BeanifyTest {
 	public void testBeanify() {
 		IDatabase database = null;
 		try {
-			database = Kwery.getDatabase(new File(TestSettings.TEST01_PATH));
-		} catch (KweryException e1) {
+			database = DatabaseFactory.getDatabase(new File(TestSettings.TEST01_PATH));
+		} catch (DatabaseException e1) {
 			Assert.fail("Caught exception during opening database");
 		}
 
@@ -36,7 +36,7 @@ public class BeanifyTest {
 		try {
 			ITable table = database.getTable("e", false);
 			bean = table.getAll()[0].beanify(SimpleBean.class);
-		} catch (KweryException e) {
+		} catch (DatabaseException e) {
 			Assert.fail("Caught exception during beanify");
 		}
 		

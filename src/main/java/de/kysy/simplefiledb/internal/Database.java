@@ -1,27 +1,27 @@
 /*
- * This file is part of Kwery.
+ * This file is part of SimpleFileDB.
  *
- * Kwery is free software: you can redistribute it and/or modify
+ * SimpleFileDB is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Kwery is distributed in the hope that it will be useful,
+ * SimpleFileDB is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Kwery.  If not, see <http://www.gnu.org/licenses/>.
+ * along with SimpleFileDB.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.stefanteitge.kwery.internal;
+package de.kysy.simplefiledb.internal;
 
 import com.google.common.base.MoreObjects;
-import de.stefanteitge.kwery.IDatabase;
-import de.stefanteitge.kwery.ITable;
-import de.stefanteitge.kwery.KweryConfig;
-import de.stefanteitge.kwery.KweryException;
+import de.kysy.simplefiledb.DatabaseConfig;
+import de.kysy.simplefiledb.DatabaseException;
+import de.kysy.simplefiledb.IDatabase;
+import de.kysy.simplefiledb.ITable;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -30,20 +30,20 @@ import java.util.Map;
 
 public class Database implements IDatabase {
 
-  public static final String KWERY_EXTENSION = ".kwery";
+  public static final String EXTENSION = ".simplefiledb";
 
   private Map<String, Table> tableMap;
 
   private final File directory;
 
-  private KweryConfig config;
+  private DatabaseConfig config;
 
   /**
    * Initialized the database abstraction.
    * @param directory the physical directory containing the tables.
    * @param config the configuration use.
    */
-  public Database(File directory, KweryConfig config) {
+  public Database(File directory, DatabaseConfig config) {
     this.directory = directory;
     this.config = config;
 
@@ -52,7 +52,7 @@ public class Database implements IDatabase {
     File[] tableFiles = directory.listFiles(new FilenameFilter() {
       @Override
       public boolean accept(File dir, String name) {
-        return name != null && name.endsWith(KWERY_EXTENSION);
+        return name != null && name.endsWith(EXTENSION);
       }
     });
 
@@ -60,14 +60,14 @@ public class Database implements IDatabase {
       try {
         Table table = new Table(this, tableFile);
         tableMap.put(table.getName(), table);
-      } catch (KweryException e) {
+      } catch (DatabaseException e) {
         // ignore
         // TODO log
       }
     }
   }
 
-  public KweryConfig getConfig() {
+  public DatabaseConfig getConfig() {
     return config;
   }
 
@@ -87,12 +87,12 @@ public class Database implements IDatabase {
     Table table = tableMap.get(name);
 
     if (table == null && create) {
-      File tableFile = new File(directory, name + KWERY_EXTENSION);
+      File tableFile = new File(directory, name + EXTENSION);
 
       try {
         table = new Table(this, tableFile);
         tableMap.put(name, table);
-      } catch (KweryException e) {
+      } catch (DatabaseException e) {
         return null;
       }
     }
@@ -101,7 +101,7 @@ public class Database implements IDatabase {
   }
 
   @Override
-  public void flush() throws KweryException {
+  public void flush() throws DatabaseException {
     for (Table table : tableMap.values()) {
       if (table.isModified()) {
         table.flush();

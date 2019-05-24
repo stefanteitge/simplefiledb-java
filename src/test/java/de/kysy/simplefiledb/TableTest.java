@@ -1,20 +1,20 @@
 /*
- * This file is part of Kwery.
+ * This file is part of SimpleFileDB.
  *
- * Kwery is free software: you can redistribute it and/or modify
+ * SimpleFileDB is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Kwery is distributed in the hope that it will be useful,
+ * SimpleFileDB is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Kwery.  If not, see <http://www.gnu.org/licenses/>.
+ * along with SimpleFileDB.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.stefanteitge.kwery;
+package de.kysy.simplefiledb;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,8 +30,8 @@ public class TableTest {
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 	
 	@Test
-	public void testGetColums() throws KweryException {
-		IDatabase database = Kwery.getDatabase(new File(TestSettings.TEST01_PATH));
+	public void testGetColums() throws DatabaseException {
+		IDatabase database = DatabaseFactory.getDatabase(new File(TestSettings.TEST01_PATH));
 
 		Assert.assertNotNull("Database may not be null", database);
 
@@ -53,8 +53,8 @@ public class TableTest {
 	}
 	
 	@Test
-	public void testColumnDeclarationRequired() throws KweryException {
-		IDatabase database = Kwery.getDatabase(new File(TestSettings.TEST01_PATH));
+	public void testColumnDeclarationRequired() throws DatabaseException {
+		IDatabase database = DatabaseFactory.getDatabase(new File(TestSettings.TEST01_PATH));
 		database.getConfig().setRequireColumnDeclaration(false);
 		ITable table = database.getTable("b", false);
 		IEntity entity = table.simpleQuery("r", "b");
@@ -66,7 +66,7 @@ public class TableTest {
 
 		Assert.assertNull("Column must be retrievable", value);
 		
-		IDatabase database2 = Kwery.getDatabase(new File(TestSettings.TEST01_PATH));
+		IDatabase database2 = DatabaseFactory.getDatabase(new File(TestSettings.TEST01_PATH));
 		database2.getConfig().setRequireColumnDeclaration(true);
 		ITable table2 = database2.getTable("b", false);
 		IEntity entity2 = table2.simpleQuery("r", "b");
@@ -92,8 +92,8 @@ public class TableTest {
 	}
 
 	@Test
-	public void testGetDatabase() throws KweryException {
-		IDatabase database = Kwery.getDatabase(new File(TestSettings.TEST01_PATH));
+	public void testGetDatabase() throws DatabaseException {
+		IDatabase database = DatabaseFactory.getDatabase(new File(TestSettings.TEST01_PATH));
 
 		Assert.assertNotNull("Database may not be null", database);
 
@@ -105,8 +105,8 @@ public class TableTest {
 	}
 
 	@Test
-	public void testGetAll() throws KweryException {
-		IDatabase database = Kwery.getDatabase(new File(TestSettings.TEST01_PATH));
+	public void testGetAll() throws DatabaseException {
+		IDatabase database = DatabaseFactory.getDatabase(new File(TestSettings.TEST01_PATH));
 
 		Assert.assertNotNull("Database may not be null", database);
 
@@ -124,8 +124,8 @@ public class TableTest {
 	}
 
 	@Test
-	public void testSimpleQuery() throws KweryException {
-		IDatabase database = Kwery.getDatabase(new File(TestSettings.TEST01_PATH));
+	public void testSimpleQuery() throws DatabaseException {
+		IDatabase database = DatabaseFactory.getDatabase(new File(TestSettings.TEST01_PATH));
 		ITable table = database.getTable("b", false);
 
 		IEntity entity = table.simpleQuery("r", "b");
@@ -136,16 +136,16 @@ public class TableTest {
 	}
 
 	@Test(expected = RuntimeException.class)
-	public void testSimpleQueryInvalidColumn() throws KweryException {
-		IDatabase database = Kwery.getDatabase(new File(TestSettings.TEST01_PATH));
+	public void testSimpleQueryInvalidColumn() throws DatabaseException {
+		IDatabase database = DatabaseFactory.getDatabase(new File(TestSettings.TEST01_PATH));
 		ITable table = database.getTable("b", false);
 
 		table.simpleQuery("z", "b");
 	}
 
 	@Test
-	public void testCreateEntity() throws KweryException {
-		IDatabase database = Kwery.getDatabase(new File(TestSettings.TEST01_PATH));
+	public void testCreateEntity() throws DatabaseException {
+		IDatabase database = DatabaseFactory.getDatabase(new File(TestSettings.TEST01_PATH));
 		ITable table = database.getTable("c", false);
 
 		int entityCount = table.getAll().length;
@@ -160,16 +160,16 @@ public class TableTest {
 	}
 
 	@Test
-	public void testCreateTable() throws KweryException, IOException {
+	public void testCreateTable() throws DatabaseException, IOException {
 		File folder = temporaryFolder.newFolder();
 
-		File tableFile = new File(folder, "a.kwery");
+		File tableFile = new File(folder, "a.SimpleFileDB");
 
 		tableFile.delete();
 
 		Assert.assertTrue("Table file must be deleted at this point", !tableFile.exists());
 
-		IDatabase database = Kwery.getDatabase(folder);
+		IDatabase database = DatabaseFactory.getDatabase(folder);
 
 		Assert.assertNotNull("Database may not be null", database);
 
@@ -187,16 +187,16 @@ public class TableTest {
 	}
 
 	@Test
-	public void testCreateTableDisallowed() throws KweryException, IOException {
+	public void testCreateTableDisallowed() throws DatabaseException, IOException {
 		File folder = temporaryFolder.newFolder();
 
-		File tableFile = new File(folder, "a.kwery");
+		File tableFile = new File(folder, "a.SimpleFileDB");
 
 		tableFile.delete();
 
 		Assert.assertTrue("Table file must be deleted at this point", !tableFile.exists());
 
-		IDatabase database = Kwery.getDatabase(folder);
+		IDatabase database = DatabaseFactory.getDatabase(folder);
 
 		Assert.assertNotNull("Database may not be null", database);
 

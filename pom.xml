@@ -2,14 +2,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>de.stefanteitge</groupId>
-  <artifactId>kwery</artifactId>
-  <version>0.0.2</version>
+  <groupId>de.kysy</groupId>
+  <artifactId>simplefiledb</artifactId>
+  <version>0.1.0</version>
   <packaging>jar</packaging>
 
-  <name>kwery</name>
+  <name>simplefiledb</name>
   <description>Simple flat file database</description>
-  <url>https://github.com/stefanteitge/kwery</url>
+  <url>https://github.com/stefanteitge/simplefiledb</url>
 
   <licenses>
     <license>
@@ -20,9 +20,9 @@
   </licenses>
 
   <scm>
-    <url>git@github.com:stefanteitge/kwery-lib-java</url>
-    <connection>scm:git:git@github.com:stefanteitge/kwery-lib-java.git</connection>
-    <developerConnection>scm:git:git@github.com:stefanteitge/kwery-lib-java.git</developerConnection>
+    <url>git@github.com:stefanteitge/simplefiledb</url>
+    <connection>scm:git:git@github.com:stefanteitge/simplefiledb.git</connection>
+    <developerConnection>scm:git:git@github.com:stefanteitge/simplefiledb.git</developerConnection>
   </scm>
 
   <developers>

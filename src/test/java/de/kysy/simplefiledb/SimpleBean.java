@@ -1,4 +1,4 @@
-package de.stefanteitge.kwery;
+package de.kysy.simplefiledb;
 
 public class SimpleBean {
 

@@ -1,26 +1,26 @@
 /*
- * This file is part of Kwery.
+ * This file is part of SimpleFileDB.
  *
- * Kwery is free software: you can redistribute it and/or modify
+ * SimpleFileDB is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Kwery is distributed in the hope that it will be useful,
+ * SimpleFileDB is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Kwery.  If not, see <http://www.gnu.org/licenses/>.
+ * along with SimpleFileDB.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.stefanteitge.kwery.internal;
+package de.kysy.simplefiledb.internal;
 
 import com.google.common.base.MoreObjects;
-import de.stefanteitge.kwery.IEntity;
-import de.stefanteitge.kwery.ITable;
-import de.stefanteitge.kwery.KweryException;
+import de.kysy.simplefiledb.DatabaseException;
+import de.kysy.simplefiledb.IEntity;
+import de.kysy.simplefiledb.ITable;
 import org.apache.commons.beanutils.PropertyUtils;
 
 import java.lang.reflect.InvocationTargetException;
@@ -41,7 +41,7 @@ public class Entity implements IEntity {
   }
 
   @Override
-  public <T> T beanify(Class<T> clazz) throws KweryException {
+  public <T> T beanify(Class<T> clazz) throws DatabaseException {
     try {
       T bean = clazz.getConstructor().newInstance();
 
@@ -51,13 +51,13 @@ public class Entity implements IEntity {
 
       return bean;
     } catch (InstantiationException e) {
-      throw new KweryException("Beanify failed", e);
+      throw new DatabaseException("Beanify failed", e);
     } catch (IllegalAccessException e) {
-      throw new KweryException("Beanify failed", e);
+      throw new DatabaseException("Beanify failed", e);
     } catch (NoSuchMethodException e) {
-      throw new KweryException("Beanify failed", e);
+      throw new DatabaseException("Beanify failed", e);
     } catch (InvocationTargetException e) {
-      throw new KweryException("Beanify failed", e);
+      throw new DatabaseException("Beanify failed", e);
     }
   }
 

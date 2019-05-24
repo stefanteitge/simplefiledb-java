@@ -1,27 +1,27 @@
 /*
- * This file is part of Kwery.
+ * This file is part of SimpleFileDB.
  *
- * Kwery is free software: you can redistribute it and/or modify
+ * SimpleFileDB is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Kwery is distributed in the hope that it will be useful,
+ * SimpleFileDB is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Kwery.  If not, see <http://www.gnu.org/licenses/>.
+ * along with SimpleFileDB.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.stefanteitge.kwery.internal;
+package de.kysy.simplefiledb.internal;
 
 import com.google.common.base.MoreObjects;
-import de.stefanteitge.kwery.IDatabase;
-import de.stefanteitge.kwery.IEntity;
-import de.stefanteitge.kwery.ITable;
-import de.stefanteitge.kwery.KweryException;
+import de.kysy.simplefiledb.DatabaseException;
+import de.kysy.simplefiledb.IDatabase;
+import de.kysy.simplefiledb.IEntity;
+import de.kysy.simplefiledb.ITable;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -54,7 +54,7 @@ public class Table implements ITable {
 
   private boolean columnsModified;
 
-  public Table(Database database, File file) throws KweryException {
+  public Table(Database database, File file) throws DatabaseException {
     this.database = database;
     this.file = file;
     columns = new String[0];
@@ -65,11 +65,11 @@ public class Table implements ITable {
       try {
         file.createNewFile();
       } catch (IOException e) {
-        throw new KweryException("Could not create table file", e);
+        throw new DatabaseException("Could not create table file", e);
       }
     }
 
-    name = file.getName().replaceAll(Database.KWERY_EXTENSION, "");
+    name = file.getName().replaceAll(Database.EXTENSION, "");
 
     entityList = new ArrayList<Entity>();
 
@@ -94,16 +94,16 @@ public class Table implements ITable {
       }
       isr.close();
     } catch (FileNotFoundException e) {
-      throw new KweryException("Table file not found", e);
+      throw new DatabaseException("Table file not found", e);
     } catch (IOException e) {
-      throw new KweryException("Table file access failed", e);
+      throw new DatabaseException("Table file access failed", e);
     }
   }
 
   @Override
   public void addColumn(String column) {
     // TODO Auto-generated method stub
-    columns = KweryUtil.concat(columns, new String[] {column});
+    columns = DatabaseUtil.concat(columns, new String[] {column});
     columnsModified = true;
   }
 
@@ -172,7 +172,7 @@ public class Table implements ITable {
   }
 
   @Override
-  public void flush() throws KweryException {
+  public void flush() throws DatabaseException {
     try {
       FileWriter writer = new FileWriter(file);
       PrintWriter bw = new PrintWriter(writer);
@@ -190,7 +190,7 @@ public class Table implements ITable {
       columnsModified = false;
     } catch (IOException e) {
       // TODO rollback on failure (isModified)?
-      throw new KweryException("Failed to save table " + name, e);
+      throw new DatabaseException("Failed to save table " + name, e);
     }
   }
 
