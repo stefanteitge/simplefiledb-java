@@ -13,6 +13,6 @@ SimpleFileDB is deployed to Sonatype OSS repository. So you can simply declare a
 <dependency>
     <groupId>de.kysy</groupId>
     <artifactId>simplefiledb</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
 </dependency>
 ```
