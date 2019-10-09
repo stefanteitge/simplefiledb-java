@@ -2,6 +2,9 @@
 
 [![Build Status](https://travis-ci.org/stefanteitge/simplefiledb.png?branch=master)](https://travis-ci.org/stefanteitge/simplefiledb)
 
+[![DepShield Badge](https://depshield.sonatype.org/badges/stefanteitge/simplefiledb/depshield.svg)](https://depshield.github.io)
+
+
 SimpleFileDB a simple flat file database.
 Its is intended to be used as a quick drop-in database for small projects.
 
