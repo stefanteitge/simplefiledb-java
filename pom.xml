@@ -9,7 +9,7 @@
 
   <name>simplefiledb</name>
   <description>Simple flat file database</description>
-  <url>https://github.com/stefanteitge/simplefiledb</url>
+  <url>https://github.com/kysyde/simplefiledb</url>
 
   <licenses>
     <license>
@@ -20,9 +20,9 @@
   </licenses>
 
   <scm>
-    <url>git@github.com:stefanteitge/simplefiledb</url>
-    <connection>scm:git:git@github.com:stefanteitge/simplefiledb.git</connection>
-    <developerConnection>scm:git:git@github.com:stefanteitge/simplefiledb.git</developerConnection>
+    <url>git@github.com:kysyde/simplefiledb</url>
+    <connection>scm:git:git@github.com:kysyde/simplefiledb.git</connection>
+    <developerConnection>scm:git:git@github.com:kysyde/simplefiledb.git</developerConnection>
   </scm>
 
   <developers>
