@@ -1,6 +1,6 @@
 # Kysy SimpleFileDB
 
-[![Build Status](https://travis-ci.org/stefanteitge/simplefiledb.png?branch=master)](https://travis-ci.org/stefanteitge/simplefiledb)
+[![Build Status](https://github.com/kysyde/simplefiledb/workflows/Build/badge.svg)](https://github.com/kysyde/simplefiledb/actions)
 
 [![DepShield Badge](https://depshield.sonatype.org/badges/stefanteitge/simplefiledb/depshield.svg)](https://depshield.github.io)
 
