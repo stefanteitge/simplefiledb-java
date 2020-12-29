@@ -1,28 +1,22 @@
-name: Java with Nexus Repository
-
+name: Publish package to the Maven Central Repository
 on: [push]
-
+#on:
+#  release:
+#    types: [created]
 jobs:
-  build:
-
+  publish:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v1
-      - name: Set up JDK 1.8
+      - uses: actions/checkout@v2
+      - name: Set up Maven Central Repository
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build with Maven
-        run: mvn package --file pom.xml
-      - name: Nexus Repo Publish
-        uses: sonatype-nexus-community/nexus-repo-github-action@master
-        with:
-          serverUrl: https://oss.sonatype.org/content/repositories/snapshots
-          username: stefanteitge
-          password: ${{ secrets.NEXUS_PASSWORD }}
-          format: maven2
-          repository: maven-releases
-          coordinates: groupId=de.kysy artifactId=simplefiledb version=0.1.2
-          assets: extension=jar
-          filename: ./target/simplefiledb-0.1.2.jar
+          server-id: ossrh
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
+      - name: Publish package
+        run: mvn --batch-mode deploy
+        env:
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
