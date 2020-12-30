@@ -1,9 +1,9 @@
 # see: https://github.com/actions/setup-java
 name: Publish package to the Maven Central Repository
-on: [push]
-#on:
-#  release:
-#    types: [created]
+on:
+  create:
+    tags:
+      - v*
 jobs:
   publish:
     runs-on: ubuntu-18.04
@@ -20,5 +20,3 @@ jobs:
           gpg_passphrase: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
           nexus_username: ${{ secrets.OSSRH_USERNAME }}
           nexus_password: ${{ secrets.OSSRH_TOKEN }}
-        #env:
-        #  GPG_TTY: $(tty) # signing failed: Inappropriate ioctl for device
