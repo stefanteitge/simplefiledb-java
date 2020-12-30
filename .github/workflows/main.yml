@@ -20,3 +20,5 @@ jobs:
           gpg_passphrase: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
           nexus_username: ${{ secrets.MAVEN_USERNAME }}
           nexus_password: ${{ secrets.MAVEN_PASSWORD }}
+        env:
+          GPG_TTY: $(tty) # signing failed: Inappropriate ioctl for device
