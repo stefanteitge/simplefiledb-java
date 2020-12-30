@@ -21,6 +21,7 @@ jobs:
       - name: Publish package
         run: mvn --batch-mode deploy
         env:
+          GPG_TTY: $(tty)
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
