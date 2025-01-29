@@ -100,16 +100,13 @@
           <publishingServerId>central</publishingServerId>
         </configuration>
       </plugin>
+      <!-- https://stackoverflow.com/questions/61096521/how-to-use-gpg-key-in-github-actions -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-gpg-plugin</artifactId>
-        <version>1.6</version>
+        <version>3.2.4</version>
         <configuration>
-          <!-- Prevent `gpg` from using pinentry programs -->
-          <gpgArguments>
-            <arg>--pinentry-mode</arg>
-            <arg>loopback</arg>
-          </gpgArguments>
+            <signer>bc</signer>
         </configuration>
         <executions>
           <execution>
