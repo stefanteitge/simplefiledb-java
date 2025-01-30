@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>de.kysy</groupId>
+  <groupId>de.stefanteitge</groupId>
   <artifactId>simplefiledb</artifactId>
   <version>0.1.6</version>
   <packaging>jar</packaging>
@@ -96,9 +96,6 @@
         <artifactId>central-publishing-maven-plugin</artifactId>
         <version>0.7.0</version>
         <extensions>true</extensions>
-        <configuration>
-          <publishingServerId>central</publishingServerId>
-        </configuration>
       </plugin>
       <!-- https://stackoverflow.com/questions/61096521/how-to-use-gpg-key-in-github-actions -->
       <plugin>
