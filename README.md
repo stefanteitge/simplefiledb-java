@@ -1,4 +1,4 @@
-# Kysy SimpleFileDB
+# SimpleFileDB
 
 [![Build Status](https://github.com/stefanteitge/simplefiledb-java/actions/workflows/build.yml/badge.svg)](https://github.com/stefanteitge/simplefiledb-java/actions)
 
