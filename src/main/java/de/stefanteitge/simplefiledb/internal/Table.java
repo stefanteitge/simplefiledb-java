@@ -15,13 +15,13 @@
  * along with SimpleFileDB.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.kysy.simplefiledb.internal;
+package de.stefanteitge.simplefiledb.internal;
 
 import com.google.common.base.MoreObjects;
-import de.kysy.simplefiledb.DatabaseException;
-import de.kysy.simplefiledb.IDatabase;
-import de.kysy.simplefiledb.IEntity;
-import de.kysy.simplefiledb.ITable;
+import de.stefanteitge.simplefiledb.DatabaseException;
+import de.stefanteitge.simplefiledb.IDatabase;
+import de.stefanteitge.simplefiledb.IEntity;
+import de.stefanteitge.simplefiledb.ITable;
 
 import java.io.BufferedReader;
 import java.io.File;

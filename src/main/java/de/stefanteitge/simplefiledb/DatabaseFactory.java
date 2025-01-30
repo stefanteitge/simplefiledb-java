@@ -15,17 +15,26 @@
  * along with SimpleFileDB.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.kysy.simplefiledb;
+package de.stefanteitge.simplefiledb;
 
-public interface IDatabase {
+import de.stefanteitge.simplefiledb.internal.Database;
 
-  void flush() throws DatabaseException;
+import java.io.File;
 
-  DatabaseConfig getConfig();
+public class DatabaseFactory {
 
-  ITable[] getTables();
+  private DatabaseFactory() {
+  }
 
-  ITable getTable(String name, boolean create);
+  public static IDatabase getDatabase(File directory) throws DatabaseException {
+    return getDatabase(directory, DatabaseConfig.createDefault());
+  }
 
-  boolean isModified();
+  public static IDatabase getDatabase(File directory, DatabaseConfig config) throws DatabaseException {
+    if (directory == null || !directory.exists() || !directory.isDirectory()) {
+      throw new DatabaseException("Database directory is invalid");
+    }
+
+    return new Database(directory, config);
+  }
 }

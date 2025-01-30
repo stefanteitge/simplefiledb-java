@@ -1,4 +1,4 @@
-package de.kysy.simplefiledb;
+package de.stefanteitge.simplefiledb;
 
 public class SimpleBean {
 

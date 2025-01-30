@@ -15,18 +15,27 @@
  * along with SimpleFileDB.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.kysy.simplefiledb.internal;
+package de.stefanteitge.simplefiledb;
 
-import java.util.Arrays;
+public interface ITable {
 
-public class DatabaseUtil {
+  void addColumn(String column);
 
-  private DatabaseUtil() {
-  }
+  IEntity createEntity();
 
-  public static <R> R[] concat(R[] first, R[] second) {
-    R[] result = Arrays.copyOf(first, first.length + second.length);
-    System.arraycopy(second, 0, result, first.length, second.length);
-    return result;
-  }
+  void ensureColumnsExist(String[] strings);
+
+  void flush() throws DatabaseException;
+
+  IEntity[] getAll();
+
+  IDatabase getDatabase();
+
+  String[] getColumns();
+
+  String getName();
+
+  boolean isModified();
+
+  IEntity simpleQuery(String column, String value);
 }

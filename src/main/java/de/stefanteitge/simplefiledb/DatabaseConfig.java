@@ -15,7 +15,7 @@
  * along with SimpleFileDB.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.kysy.simplefiledb;
+package de.stefanteitge.simplefiledb;
 
 public class DatabaseConfig {
 

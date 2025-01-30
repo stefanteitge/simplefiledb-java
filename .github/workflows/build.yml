@@ -9,7 +9,6 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'
-      - name: Test
-        run: mvn test
+      # package also run tests
       - name: Build
         run: mvn package
