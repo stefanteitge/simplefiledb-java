@@ -1,4 +1,3 @@
-# see: https://github.com/actions/setup-java
 name: Publish package to the Maven Central Repository
 on:
   create:
@@ -16,7 +15,7 @@ jobs:
           server-id: 'central'
           server-username: 'OSSRH_USERNAME'
           server-password: 'OSSRH_PASSWORD'
-      - name: Publish to Apache Maven Central
+      - name: Publish to Maven Central
         run: mvn deploy
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}

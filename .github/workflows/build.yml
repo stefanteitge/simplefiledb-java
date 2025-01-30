@@ -9,5 +9,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'
-      - name: Build with Maven
+      - name: Test
+        run: mvn test
+      - name: Build
         run: mvn package
