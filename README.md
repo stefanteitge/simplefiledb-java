@@ -1,6 +1,6 @@
 # Kysy SimpleFileDB
 
-[![Build Status](https://github.com/stefanteitge/simplefiledb/workflows/Build/badge.svg)](https://github.com/stefanteitge/simplefiledb/actions)
+[![Build Status](https://github.com/stefanteitge/simplefiledb-java/actions/workflows/build.yml/badge.svg)](https://github.com/stefanteitge/simplefiledb-java/actions)
 
 SimpleFileDB a simple flat file database.
 
@@ -12,8 +12,8 @@ SimpleFileDB is deployed to Sonatype OSS repository. So you can simply declare a
 
 ```xml
 <dependency>
-    <groupId>de.kysy</groupId>
+    <groupId>de.stefanteitge</groupId>
     <artifactId>simplefiledb</artifactId>
-    <version>0.1.5</version>
+    <version>0.1.6</version>
 </dependency>
 ```
