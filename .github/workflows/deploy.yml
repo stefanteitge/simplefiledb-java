@@ -14,8 +14,8 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
           server-id: 'central'
-          server-username: ${{ secrets.OSSRH_USERNAME }}
-          server-password: ${{ secrets.OSSRH_TOKEN }}
+          server-username: 'OSSRH_USERNAME'
+          server-password: 'OSSRH_PASSWORD'
       - name: Publish to Apache Maven Central
         run: mvn deploy
         env:
